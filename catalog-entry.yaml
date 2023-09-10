@@ -1,0 +1,31 @@
+name: Cloudera
+
+entries:
+  - title: OpenAI Chatbot Leveraging GPT 3.5 and GPT 4
+    label: llm-chatbot
+    short_description: |
+        Leverage OpenAI for Retrieval Augmented Generation (RAG) Question-Answering Large
+        Language Model (LLM) Bot with local documents
+    long_description: |
+        IMPORTANT: Please read the following before proceeding.  By configuring and launching this AMP, you will cause https://huggingface.co/sentence-transformers/all-MiniLM-L12-v2, which is a third party embedding model, to be downloaded and installed into your environment from the third party’s website.  Please see https://huggingface.co/sentence-transformers/all-MiniLM-L12-v2 for more information about the embedding model, including the applicable license terms. Additionally, you will be using OpenAI's API to access semantic search responses and send data from your environment into theirs. Please see https://openai.com/policies/terms-of-use for more information about their API, including the applicable license terms. If you do not wish to download and install the sentence transformers library, or access OpenAI's API do not deploy this repository.  By deploying this repository, you acknowledge the foregoing statement and agree that Cloudera is not responsible or liable in any way for the embedding model or the OpenAI API. Author: Cloudera Inc.
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        This AMP builds a Retrieval Augmented Generation (RAG)
+        Question-Answer Large Language Model (LLM) Bot application which
+        demonstrates how context from local documents can be used with pre-trained
+        LLM models to perform context retrieval and chat response
+        generation with factual responses.
+
+    image_path: >-
+      https://raw.githubusercontent.com/kevinbtalbert/openai-chatbot/main/images/catalog-screenshot.png
+    tags:
+      - Chatbot
+      - LLM
+      - OpenAI
+      - Generative AI
+      - RAG
+      - Vector DB
+      - Milvus
+      - Transformers
+      - NLP
+    git_url: 'https://github.com/kevinbtalbert/openai-chatbot'
+    is_prototype: true
