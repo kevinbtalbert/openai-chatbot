@@ -3,7 +3,6 @@ import gradio
 import openai
 from milvus import default_server
 from pymilvus import connections, Collection
-import utils.model_llm_utils as model_llm
 import utils.vector_db_utils as vector_db
 import utils.model_embedding_utils as model_embedding
 
