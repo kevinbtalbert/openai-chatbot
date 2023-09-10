@@ -3,6 +3,9 @@
 This repository demonstrates how to use an open source pre-trained instruction-following LLM (Large Language Model) to build a ChatBot-like web application. The responses of the LLM are enhanced by giving it context from an internal knowledge base. This context is retrieved by using an open source Vector Database to do semantic search with OpenAI's API. 
 
 ![image](./images/catalog-screenshot.png)
+
+![image](./images/app-screenshot.png)
+
 Unlike its sister AMP, this model uses OpenAI for semantic search and therefore the information you populate in the `/data` folder is part of the external API call. It requires access to the OpenAI servers and as such will not perform in an airgapped environment. By using OpenAI for the semantic search, the user has access to the latest incredibly capable models by OpenAI for accelerating insights with fast, high quality responses.
 
 > **IMPORTANT**: Please read the following before proceeding.  By configuring and launching this AMP, you will cause https://huggingface.co/sentence-transformers/all-MiniLM-L12-v2, which is a third party embedding model, to be downloaded and installed into your environment from the third party’s website.  Please see https://huggingface.co/sentence-transformers/all-MiniLM-L12-v2 for more information about the embedding model, including the applicable license terms. Additionally, you will be using OpenAI's API to access semantic search responses and send data from your environment into theirs. Please see https://openai.com/policies/terms-of-use for more information about their API, including the applicable license terms. If you do not wish to download and install the sentence transformers library, or access OpenAI's API do not deploy this repository.  By deploying this repository, you acknowledge the foregoing statement and agree that Cloudera is not responsible or liable in any way for the embedding model or the OpenAI API. Author: Cloudera Inc.

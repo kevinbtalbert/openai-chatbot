@@ -14,9 +14,6 @@ def main():
                             inputs=[gradio.Radio(['gpt-3.5-turbo', 'gpt-4'], label="Select GPT Engine", value="gpt-3.5-turbo"), gradio.Textbox(label="Open AI API Key", placeholder="sk-xxxxx"), gradio.Textbox(label="Question", placeholder="")],
                             outputs=[gradio.Textbox(label="Asking Open AI LLM with No Context"),
                                      gradio.Textbox(label="Asking Open AI with Context (RAG)")],
-                            examples=["What are ML Runtimes?",
-                                      "What kinds of users use CML?",
-                                      "How do data scientists use CML?"],
                             allow_flagging="never")
 
 
