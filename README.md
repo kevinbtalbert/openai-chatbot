@@ -47,17 +47,12 @@ For more detailed description of architectures like this and how it can enhance 
   - Return the LLM response in a web application
 
 ## Requirements
-#### CML Instance Types
-- A GPU instance is required to perform inference on the LLM
-  - [CML Documentation: GPUs](https://docs.cloudera.com/machine-learning/cloud/gpu/topics/ml-gpu.html)
-- A CUDA 5.0+ capable GPU instance type is recommended
-  - The torch libraries in this AMP require a GPU with CUDA compute capability 5.0 or higher. (i.e. nVidia V100, A100, T4 GPUs)
 
 #### Resource Requirements
 This AMP creates the following workloads with resource requirements:
 - CML Session: `1 CPU, 4GB MEM`
 - CML Jobs: `1 CPU, 4GB MEM`
-- CML Application: `2 CPU, 1 GPU, 16GB MEM`
+- CML Application: `2 CPU, 16GB MEM`
 
 #### External Resources
 This AMP requires pip packages and models from huggingface and openai. Depending on your CML networking setup, you may need to whitelist some domains:
