@@ -13,9 +13,9 @@ def main():
     demo = gradio.Interface(fn=get_responses, 
                             inputs=[gradio.Radio(['gpt-3.5-turbo', 'gpt-4'], label="Select GPT Engine", value="gpt-3.5-turbo"), gradio.Textbox(label="Open AI API Key", placeholder="sk-xxxxx"), gradio.Textbox(label="Question", placeholder="")],
                             outputs=[gradio.Textbox(label="Asking Open AI LLM with No Context"),
-                                     gradio.Textbox(label="Asking Open AI with Context (RAG)")],
+                                     gradio.Textbox(label="Asking Open AI with Context (RAG)"),
+                                     gradio.Textbox(label="References")],
                             allow_flagging="never")
-
 
     # Launch gradio app
     print("Launching gradio app")
@@ -49,7 +49,12 @@ def get_responses(engine, open_ai_api_key, question):
     plainResponse = get_llm_response_without_context(question, engine)
     plain_response = plainResponse
 
-    return plain_response, rag_response
+    References = ""
+    for ref in context_chunk.ref:
+      References += ref
+      References += "\n"
+
+    return plain_response, rag_response, References
 
 # Get embeddings for a user question and query Milvus vector DB for nearest knowledge base chunk
 def get_nearest_chunk_from_vectordb(vector_db_collection, question):
@@ -72,9 +77,13 @@ def get_nearest_chunk_from_vectordb(vector_db_collection, question):
 
     # Return text of the nearest knowledgebase chunk
     response = ""
-    for f in nearest_vectors[0]:
-        response += str(load_context_chunk_from_data(f.id))
-    
+    for f in nearest_vectors:
+        new_response = str(load_context_chunk_from_data(f.id))
+        print("Response: " + new_response)
+        response += new_response
+
+    response.ref = nearest_vectors
+
     return response
   
 # Return the Knowledge Base doc based on Knowledge Base ID (relative file path)
