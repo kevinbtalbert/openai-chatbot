@@ -11,10 +11,12 @@ def main():
     # Configure gradio QA app 
     print("Configuring gradio app")
     demo = gradio.Interface(fn=get_responses, 
-                            inputs=[gradio.Radio(['gpt-3.5-turbo', 'gpt-4'], label="Select GPT Engine", value="gpt-3.5-turbo"), gradio.Textbox(label="Open AI API Key", placeholder="sk-xxxxx"), gradio.Textbox(label="Question", placeholder="")],
+                            inputs=[gradio.Radio(['gpt-3.5-turbo', 'gpt-4'], label="Select GPT Engine", value="gpt-3.5-turbo"), gradio.Textbox(label="Open AI API Key", placeholder="sk-xxxxx"), gradio.Textbox(label="Question", placeholder=""),
+gradio.Number(label="number of chunks", placeholder=1)],
                             outputs=[gradio.Textbox(label="Asking Open AI LLM with No Context"),
                                      gradio.Textbox(label="Asking Open AI with Context (RAG)"),
-                                     gradio.Textbox(label="References")],
+                                     gradio.Textbox(label="References")                                     
+                                    ],
                             allow_flagging="never")
 
     # Launch gradio app
@@ -27,9 +29,12 @@ def main():
     print("Gradio app ready")
 
 # Helper function for generating responses for the QA app
-def get_responses(engine, open_ai_api_key, question):
+def get_responses(engine, open_ai_api_key, question, nbr_chunks):
     if engine is "" or question is "" or open_ai_api_key is "" or engine is None or question is None or open_ai_api_key is None:
         return "No question, engine, or api key selected."
+    nbr_chunks = int(nbr_chunks)
+    # debug
+    print("nbr_chunks: " + str(nbr_chunks))
 
     openai.api_key = open_ai_api_key
 
@@ -38,7 +43,7 @@ def get_responses(engine, open_ai_api_key, question):
     vector_db_collection.load()
     
     # Phase 1: Get nearest knowledge base chunk for a user question from a vector db
-    context_chunk = get_nearest_chunk_from_vectordb(vector_db_collection, question)
+    References, context_chunk = get_nearest_chunk_from_vectordb(vector_db_collection, question)
     vector_db_collection.release()
 
     # Phase 2a: Perform text generation with LLM model using found kb context chunk
@@ -48,11 +53,6 @@ def get_responses(engine, open_ai_api_key, question):
     # Phase 2b: For comparison, also perform text generation with LLM model without providing context
     plainResponse = get_llm_response_without_context(question, engine)
     plain_response = plainResponse
-
-    References = ""
-    for ref in context_chunk.ref:
-      References += ref
-      References += "\n"
 
     return plain_response, rag_response, References
 
@@ -69,7 +69,8 @@ def get_nearest_chunk_from_vectordb(vector_db_collection, question):
         data=[question_embedding], # The data you are querying on
         anns_field="embedding", # Column in collection to search on
         param=vector_db_search_params,
-        limit=2, # limit results to 1
+        #limit=nbr_chunks, # limit results as defined in GUI
+        limit=4,
         expr=None, 
         output_fields=['relativefilepath'], # The fields you want to retrieve from the search result.
         consistency_level="Strong"
@@ -77,14 +78,12 @@ def get_nearest_chunk_from_vectordb(vector_db_collection, question):
 
     # Return text of the nearest knowledgebase chunk
     response = ""
-    for f in nearest_vectors:
+    for f in nearest_vectors[0]:
         new_response = str(load_context_chunk_from_data(f.id))
         print("Response: " + new_response)
         response += new_response
 
-    response.ref = nearest_vectors
-
-    return response
+    return nearest_vectors[0], response
   
 # Return the Knowledge Base doc based on Knowledge Base ID (relative file path)
 def load_context_chunk_from_data(id_path):
