@@ -11,7 +11,7 @@ def main():
     # Configure gradio QA app 
     print("Configuring gradio app")
     demo = gradio.Interface(fn=get_responses, 
-                            inputs=[gradio.Radio(['gpt-3.5-turbo', 'gpt-4'], label="Select GPT Engine", value="gpt-3.5-turbo"), gradio.Textbox(label="Open AI API Key", placeholder="sk-xxxxx"), gradio.Textbox(label="Question", placeholder="")],
+                            inputs=[gradio.Radio(['gpt-3.5-turbo', 'gpt-4'], label="Select GPT Engine", value="gpt-3.5-turbo"), gradio.Textbox(label="Question", placeholder="")],
                             outputs=[gradio.Textbox(label="Asking Open AI LLM with No Context"),
                                      gradio.Textbox(label="Asking Open AI with Context (RAG)")],
                             allow_flagging="never")
@@ -27,8 +27,13 @@ def main():
     print("Gradio app ready")
 
 # Helper function for generating responses for the QA app
-def get_responses(engine, open_ai_api_key, question):
-    if engine is "" or question is "" or open_ai_api_key is "" or engine is None or question is None or open_ai_api_key is None:
+def get_responses(engine, question):
+    try:
+        open_ai_api_key = os.getenv('OPENAI_KEY')
+    except:
+        return "No OpenAI key declared"
+    
+    if engine is "" or question is "" or engine is None or question is None:
         return "No question, engine, or api key selected."
 
     openai.api_key = open_ai_api_key

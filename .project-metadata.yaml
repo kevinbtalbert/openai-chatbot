@@ -7,6 +7,12 @@ specification_version: 1.0
 prototype_version: 1.0
 date: "2023-09-10"
 
+environment_variables:
+  OPENAI_KEY:
+    default: "sk-xxxx"
+    description: "If this is not set now, it will need to be configured for the application to function."
+    required: true
+
 runtimes:
   - editor: Workbench
     kernel: Python 3.9
