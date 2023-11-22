@@ -5,7 +5,7 @@ description: |
 author: Cloudera Inc.
 specification_version: 1.0
 prototype_version: 1.0
-date: "2023-09-10"
+date: "2023-11-22"
 
 environment_variables:
   OPENAI_KEY:
@@ -66,6 +66,6 @@ tasks:
     short_summary: Start CML OpenAI Chatbot application
     long_summary: This application requires an available GPU to run the LLM model. Startup may be delayed if autoscaling is being performed or fail if GPU cannot be scheduled on this workspace. Please contact your administrator for GPU scheduling.
     cpu: 2
-    memory: 16
+    memory: 8
     environment_variables:
       TASK_TYPE: START_APPLICATION

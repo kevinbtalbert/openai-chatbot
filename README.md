@@ -52,7 +52,7 @@ For more detailed description of architectures like this and how it can enhance 
 This AMP creates the following workloads with resource requirements:
 - CML Session: `1 CPU, 4GB MEM`
 - CML Jobs: `1 CPU, 4GB MEM`
-- CML Application: `2 CPU, 16GB MEM`
+- CML Application: `2 CPU, 8GB MEM`
 
 #### External Resources
 This AMP requires pip packages and models from huggingface and openai. Depending on your CML networking setup, you may need to whitelist some domains:
