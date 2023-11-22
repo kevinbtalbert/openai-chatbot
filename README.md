@@ -1,6 +1,6 @@
 # OpenAI Chatbot Leveraging GPT 3.5 and GPT 4
 
-This repository demonstrates how to use an open source pre-trained instruction-following LLM (Large Language Model) to build a ChatBot-like web application. The responses of the LLM are enhanced by giving it context from an internal knowledge base. This context is retrieved by using an open source Vector Database to do semantic search with OpenAI's API. 
+This repository demonstrates how to use OpenAI's pre-trained instruction-following LLM (Large Language Model) to build a ChatBot-like web application. The responses of the LLM are enhanced by giving it context from an internal knowledge base. This context is retrieved by using an open source Vector Database to do semantic search with OpenAI's API. 
 
 ![image](./images/catalog-screenshot.png)
 
