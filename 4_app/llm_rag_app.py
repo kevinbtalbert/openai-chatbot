@@ -1,4 +1,4 @@
-import os
+qimport os
 import gradio
 import openai
 from milvus import default_server
@@ -64,7 +64,7 @@ def get_nearest_chunk_from_vectordb(vector_db_collection, question):
         data=[question_embedding], # The data you are querying on
         anns_field="embedding", # Column in collection to search on
         param=vector_db_search_params,
-        limit=2, # limit results to 1
+        limit=2, # limit results to 1 TODO: examine why a variable cant be used for this parameter
         expr=None, 
         output_fields=['relativefilepath'], # The fields you want to retrieve from the search result.
         consistency_level="Strong"
