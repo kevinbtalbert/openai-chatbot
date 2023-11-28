@@ -17,6 +17,19 @@ gradio.Number(label="number of chunks", placeholder=1)],
                                      gradio.Textbox(label="Asking Open AI with Context (RAG)"),
                                      gradio.Textbox(label="References")                                     
                                     ],
+                            title = "Lex in a Box",
+                            description = "Ask any question you want to Lex Fridman's guests:\n" +
+                                    "Christof Koch,   \n" +
+                                    "Eric Schmidt,   \n" +
+                                    "Greg Brockman,   \n" +
+                                    "Guido van Rossum,   \n" +
+                                    "Ian Goodfellow,   \n" +
+                                    "Jeff Atwood,   \n" +
+                                    "Max Tegmark,   \n" +
+                                    "Sam Altman,   \n" +
+                                    "Steven Pinker,   \n" +
+                                    "Vladimir Vapnik,   \n" +
+                                    "Yoshua Bengio,   \n" ,
                             allow_flagging="never")
 
     # Launch gradio app
@@ -33,8 +46,6 @@ def get_responses(engine, open_ai_api_key, question, nbr_chunks):
     if engine is "" or question is "" or open_ai_api_key is "" or engine is None or question is None or open_ai_api_key is None:
         return "No question, engine, or api key selected."
     nbr_chunks = int(nbr_chunks)
-    # debug
-    print("nbr_chunks: " + str(nbr_chunks))
 
     openai.api_key = open_ai_api_key
 
