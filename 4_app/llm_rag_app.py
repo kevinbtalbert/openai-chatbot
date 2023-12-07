@@ -1,4 +1,4 @@
-qimport os
+import os
 import gradio
 import openai
 from milvus import default_server
@@ -64,8 +64,10 @@ def get_responses(engine, open_ai_api_key, question, nbr_chunks):
     # Phase 2b: For comparison, also perform text generation with LLM model without providing context
     plainResponse = get_llm_response_without_context(question, engine)
     plain_response = plainResponse
-
-    return plain_response, rag_response, References
+    
+    #select only relevant fields in References
+    References_ret = {key: References[key] for key in ['id', 'distance']}
+    return plain_response, rag_response, References_ret
 
 # Get embeddings for a user question and query Milvus vector DB for nearest knowledge base chunk
 def get_nearest_chunk_from_vectordb(vector_db_collection, question):
@@ -81,7 +83,7 @@ def get_nearest_chunk_from_vectordb(vector_db_collection, question):
         anns_field="embedding", # Column in collection to search on
         param=vector_db_search_params,
         #limit=nbr_chunks, # limit results as defined in GUI
-        limit=4, TODO: examine why a variable cant be used for this parameter
+        limit=4,
         expr=None, 
         output_fields=['relativefilepath'], # The fields you want to retrieve from the search result.
         consistency_level="Strong"
