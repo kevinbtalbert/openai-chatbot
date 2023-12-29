@@ -3,8 +3,17 @@ import gradio
 import openai
 from milvus import default_server
 from pymilvus import connections, Collection
+
+import sys
+sys.path.append('../utils/')
+print (sys.path)
+import utils
+
 import utils.vector_db_utils as vector_db
 import utils.model_embedding_utils as model_embedding
+
+import sys
+sys.path.append("utils")
 
 def main():
     # Configure gradio QA app 
@@ -59,8 +68,12 @@ def get_responses(engine, open_ai_api_key, question, nbr_chunks):
     plainResponse = get_llm_response_without_context(question, engine)
     plain_response = plainResponse
     
-    #select only relevant fields in References
-    References_ret = {key: References[key] for key in ['id', 'distance']}
+
+    #select only relevant fields (id, distance) in References
+    References_ret = []
+    for ref in References:
+    #    References_ret.append ({key: ref[key] for key in ['id', 'distance']})
+         References_ret.append("Distance: " + str(ref.distance.__round__(2)) +"  Chunk: " + ref.id +  "\\n<br>")
     return plain_response, rag_response, References_ret
 
 # Get embeddings for a user question and query Milvus vector DB for nearest knowledge base chunk
