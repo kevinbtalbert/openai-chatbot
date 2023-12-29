@@ -3,12 +3,6 @@ import gradio
 import openai
 from milvus import default_server
 from pymilvus import connections, Collection
-
-import sys
-sys.path.append('../utils/')
-print (sys.path)
-import utils
-
 import utils.vector_db_utils as vector_db
 import utils.model_embedding_utils as model_embedding
 
