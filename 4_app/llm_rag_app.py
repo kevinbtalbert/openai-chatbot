@@ -6,7 +6,6 @@ from pymilvus import connections, Collection
 import utils.vector_db_utils as vector_db
 import utils.model_embedding_utils as model_embedding
 
-
 def main():
     # Configure gradio QA app 
     print("Configuring gradio app")
@@ -17,19 +16,8 @@ gradio.Number(label="number of chunks", placeholder=1)],
                                      gradio.Textbox(label="Asking Open AI with Context (RAG)"),
                                      gradio.Textbox(label="References")                                     
                                     ],
-                            title = "Lex in a Box",
-                            description = "Ask any question you want to Lex Fridman's guests:\n" +
-                                    "Christof Koch,   \n" +
-                                    "Eric Schmidt,   \n" +
-                                    "Greg Brockman,   \n" +
-                                    "Guido van Rossum,   \n" +
-                                    "Ian Goodfellow,   \n" +
-                                    "Jeff Atwood,   \n" +
-                                    "Max Tegmark,   \n" +
-                                    "Sam Altman,   \n" +
-                                    "Steven Pinker,   \n" +
-                                    "Vladimir Vapnik,   \n" +
-                                    "Yoshua Bengio,   \n" ,
+                            title = "Custom Open AI Chatbot",
+                            description = "Ask any question you want with Your Documents",
                             allow_flagging="never")
 
     # Launch gradio app
@@ -43,6 +31,12 @@ gradio.Number(label="number of chunks", placeholder=1)],
 
 # Helper function for generating responses for the QA app
 def get_responses(engine, open_ai_api_key, question, nbr_chunks):
+    if open_ai_api_key == "":
+        try:
+            open_ai_api_key = os.getenv('OPENAI_KEY')
+        except:
+            return "No OpenAI key declared"
+
     if engine is "" or question is "" or open_ai_api_key is "" or engine is None or question is None or open_ai_api_key is None:
         return "No question, engine, or api key selected."
     nbr_chunks = int(nbr_chunks)
@@ -103,7 +97,6 @@ def load_context_chunk_from_data(id_path):
     with open(id_path, "r") as f: # Open file in read mode
         return f.read()
 
-  
 # Pass through user input to LLM model with enhanced prompt and stop tokens
 def get_llm_response_with_context(question, context, engine):
     question = "Answer this question based on given context " + question
@@ -128,7 +121,6 @@ def get_llm_response_without_context(question, engine):
             ]
     )
     return response['choices'][0]['message']['content']
-
 
 if __name__ == "__main__":
     main()
